@@ -1,4 +1,4 @@
-.PHONY: check-cljkondo check-tagref check-zprint check repl-enrich repl test test-all
+.PHONY: check-cljkondo check-tagref check-zprint-config check-zprint check repl-enrich repl test test-all test-coverage install-antq install-kondo-configs install-zprint-config upgrade-libs build deploy clean-projects clean serve
 
 HOME := $(shell echo $$HOME)
 HERE := $(shell echo $$PWD)
