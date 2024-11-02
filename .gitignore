@@ -1,0 +1,3 @@
+# Metaclj project creates these, no need to commit and confuse the reader
+.dir-locals.el
+.zprint.edn
