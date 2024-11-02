@@ -55,20 +55,20 @@ check-zprint-config:
 
 .zprint.edn:
 	@echo "Creating .zprint.edn..."
-	@echo '{:fn-map {"with-context" "with-meta"}, :map {:indent 0}}' > .zprint.edn
+	@echo '{:fn-map {"with-context" "with-meta"}, :map {:indent 0}}' > $@
 
 .dir-locals.el:
 	@echo "Creating .dir-locals.el..."
-	@echo ';;; Directory Local Variables         -*- no-byte-compile: t; -*-' > .dir-locals.el
-	@echo ';;; For more information see (info "(emacs) Directory Variables")' >> .dir-locals.el
-	@echo '((clojure-dart-ts-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojure-jank-ts-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojure-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojure-ts-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojurec-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojurec-ts-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojurescript-mode . ((apheleia-formatter . (zprint))))' >> .dir-locals.el
-	@echo ' (clojurescript-ts-mode . ((apheleia-formatter . (zprint)))))' >> .dir-locals.el
+	@echo ';;; Directory Local Variables         -*- no-byte-compile: t; -*-' > $@
+	@echo ';;; For more information see (info "(emacs) Directory Variables")' >> $@
+	@echo '((clojure-dart-ts-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojure-jank-ts-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojure-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojure-ts-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojurec-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojurec-ts-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojurescript-mode . ((apheleia-formatter . (zprint))))' >> $@
+	@echo ' (clojurescript-ts-mode . ((apheleia-formatter . (zprint)))))' >> $@
 
 install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el
 	@echo "zprint configuration files created successfully."
