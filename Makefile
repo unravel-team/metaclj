@@ -34,6 +34,11 @@ repl-enrich: .enrich-classpath-repl
 		clojure $(DEPS_MAIN_OPTS); \
 	fi
 
+.clj-kondo:
+	mkdir .clj-kondo
+
+install-kondo-configs: .clj-kondo
+	clj-kondo --lint "$$(clojure -A:dev:test:cider:build -Spath)" --copy-configs --skip-lint
 repl:
 	clojure $(DEPS_MAIN_OPTS);
 
