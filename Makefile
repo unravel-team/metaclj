@@ -1,4 +1,4 @@
-.PHONY: check-cljkondo check-tagref check-zprint-config check-zprint check repl-enrich repl test test-all test-coverage install-antq install-kondo-configs install-zprint-config upgrade-libs build deploy clean-projects clean serve
+.PHONY: check-cljkondo check-tagref check-zprint-config check-zprint check repl-enrich repl test test-all test-coverage install-antq install-kondo-configs install-zprint-config install-gitignore upgrade-libs build deploy clean-projects clean serve
 
 HOME := $(shell echo $$HOME)
 HERE := $(shell echo $$PWD)
@@ -72,6 +72,58 @@ check-zprint-config:
 
 install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el
 	@echo "zprint configuration files created successfully."
+
+.gitignore:
+	@echo '# Artifacts' > $@
+	@echo '**/classes' >> $@
+	@echo '**/target' >> $@
+	@echo '**/.artifacts' >> $@
+	@echo '**/.cpcache' >> $@
+	@echo '**/.DS_Store' >> $@
+	@echo '**/.gradle' >> $@
+	@echo 'logs/' >> $@
+	@echo '' >> $@
+	@echo '# 12-factor App Configuration' >> $@
+	@echo '.envrc' >> $@
+	@echo '' >> $@
+	@echo '# User-specific stuff' >> $@
+	@echo '.idea/**/workspace.xml' >> $@
+	@echo '.idea/**/tasks.xml' >> $@
+	@echo '.idea/**/usage.statistics.xml' >> $@
+	@echo '.idea/**/shelf' >> $@
+	@echo '.idea/**/statistic.xml' >> $@
+	@echo '.idea/dictionaries/**' >> $@
+	@echo '.idea/libraries/**' >> $@
+	@echo '' >> $@
+	@echo '# File-based project format' >> $@
+	@echo '*.iws' >> $@
+	@echo '*.ipr' >> $@
+	@echo '' >> $@
+	@echo '# Cursive Clojure plugin' >> $@
+	@echo '.idea/replstate.xml' >> $@
+	@echo '*.iml' >> $@
+	@echo '' >> $@
+	@echo '/example/example/**' >> $@
+	@echo 'artifacts' >> $@
+	@echo 'projects/**/pom.xml' >> $@
+	@echo '' >> $@
+	@echo '# nrepl' >> $@
+	@echo '.nrepl-port' >> $@
+	@echo '' >> $@
+	@echo '# clojure-lsp' >> $@
+	@echo '.lsp/.cache' >> $@
+	@echo '' >> $@
+	@echo '# clj-kondo' >> $@
+	@echo '.clj-kondo/.cache' >> $@
+	@echo '' >> $@
+	@echo '# Calva VS Code Extension' >> $@
+	@echo '.calva/output-window/output.calva-repl' >> $@
+	@echo '' >> $@
+	@echo '# Metaclj tempfiles' >> $@
+	@echo '.antqtool.lastupdated' >> $@
+
+install-gitignore: .gitignore
+	@echo ".gitignore added/exists in the project"
 
 repl:
 	clojure $(DEPS_MAIN_OPTS);
