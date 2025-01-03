@@ -1,19 +1,22 @@
-.PHONY: check-cljkondo check-tagref check-zprint-config check-zprint check repl-enrich repl test test-all test-coverage install-antq install-kondo-configs install-zprint-config install-gitignore upgrade-libs build deploy clean-projects clean serve
+.PHONY: install-antq install-kondo-configs install-zprint-config install-gitignore repl-enrich repl check-cljkondo check-tagref check-zprint-config check-zprint check test test-all test-coverage upgrade-libs build serve deploy clean-projects clean
 
 HOME := $(shell echo $$HOME)
 HERE := $(shell echo $$PWD)
 CLOJURE_SOURCES := $(shell find . -name '**.clj')
 
-.DEFAULT_GOAL := repl
-
 # Set bash instead of sh for the @if [[ conditions,
 # and use the usual safety flags:
 SHELL = /bin/bash -Eeu
+
+.DEFAULT_GOAL := repl
 
 # The Clojure CLI aliases that will be selected for main options for `repl`.
 # Feel free to upgrade this, or to override it with an env var named DEPS_MAIN_OPTS.
 # Expected format: "-M:alias1:alias2"
 DEPS_MAIN_OPTS ?= "-M:dev:test:logs-dev:cider-storm"
+
+repl:
+	clojure $(DEPS_MAIN_OPTS);
 
 # The enrich-classpath version to be injected.
 # Feel free to upgrade this.
@@ -74,6 +77,7 @@ install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el
 	@echo "zprint configuration files created successfully."
 
 .gitignore:
+	@echo "Creating a .gitignore file"
 	@echo '# Artifacts' > $@
 	@echo '**/classes' >> $@
 	@echo '**/target' >> $@
@@ -125,9 +129,6 @@ install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el
 install-gitignore: .gitignore
 	@echo ".gitignore added/exists in the project"
 
-repl:
-	clojure $(DEPS_MAIN_OPTS);
-
 check-tagref:
 	tagref
 
@@ -140,14 +141,14 @@ check-zprint:
 check: check-tagref check-cljkondo check-zprint
 	@echo "All checks passed!"
 
-test:
-	clojure -M:poly test
-
 test-all:
 	clojure -M:poly test :all
 
 test-coverage:
 	clojure -X:dev:test:clofidence
+
+test:
+	clojure -M:poly test
 
 install-antq:
 	@if [ -f .antqtool.lastupdated ] && find .antqtool.lastupdated -mtime +15 -print | grep -q .; then \
@@ -167,7 +168,6 @@ upgrade-libs: .antqtool.lastupdated install-antq
 build: check
 	@echo "Run deps-new build commands here!"
 
-
 deploy: build
 	@echo "Run fly.io deployment commands here!"
 
@@ -175,6 +175,3 @@ clean-projects:
 	rm -rf projects/*/target/public
 
 clean: clean-projects
-
-serve:
-	bb serve
