@@ -63,19 +63,19 @@ for the existence of these files.
 Our PHONY targets are as follows:
 
 1. Installing tools (generally you only need to do this once)
-   - =install-antq= (See: <antq section>)
-   - =install-kondo-configs= (See: <clj-kondo section>)
-   - =install-zprint-config= (See: <zprint section>)
-   - =install-gitignore= (See: <gitignore section>)
+   - =install-antq= (See: [[#h:9105B76A-A27A-4A63-A2D2-D311CDC9C23E][The section to upgrade Clojure libraries in the current project]])
+   - =install-kondo-configs= (Installing linting configuration. See: [[#h:557E00DD-D217-468E-9F20-FE4FE4C049BE][The clj-kondo section of the Makefile]])
+   - =install-zprint-config= (Installing formatting configuration. See: [[#h:24CF27D2-DAD9-4A3C-B80E-63DF15591FFD][The zprint section of the Makefile]])
+   - =install-gitignore= (Installing a good gitignore file. See: [[#h:DDEC523F-F4A5-4506-A1DA-3290336D6527][The .gitignore section of the Makefile]])
 2. Running our Clojure project
-   - =repl= (See: <REPL section>)
-   - =repl-enrich= (See: <Enrich section>)
+   - =repl= (Starting the Clojure REPL. See: [[#h:16E6BE64-E940-45CD-AEE7-82D197E6B2DA][The Main Opts and REPL targets for the Clojure CLI tool]])
+   - =repl-enrich= (See: [[#h:944B86CB-099C-47F9-9F91-DB446EF68012][The Enrich section of the Makefile]])
 3. Testing our Clojure project
-   - =check= (See: <Checking tags, linting and formatting section>)
-   - =test= (See: <Polylith Tests section>)
-   - =test-coverage= (See: <Cloverage section>)
+   - =check= (Checking for code-standards in CI/CD. See: [[#h:7AF49050-665C-4BF6-BC19-97B553F7D0B4][The section to check that the code is good]])
+   - =test= (Running Polylith tests. See: [[#h:CD7913EA-0DCC-4388-BDF5-9DA5AB0C3531][The section to test that the code is working correctly]])
+   - =test-coverage= (Running Clofidence)
 4. Upgrading libraries and tooling
-   - =upgrade-libs= (See: <antq section>)
+   - =upgrade-libs= (Upgrading all the dependencies. See: [[#h:9105B76A-A27A-4A63-A2D2-D311CDC9C23E][The section to upgrade Clojure libraries in the current project]])
    - =install-kondo-configs= (See: [[#h:557E00DD-D217-468E-9F20-FE4FE4C049BE][The clj-kondo section of the Makefile]])
 5. Deploying our Clojure project to Production
    - =build= (See: <Creating Artifacts section>)
@@ -342,6 +342,10 @@ run and builds to happen. Here we create Makefile targets to help us
 with this.
 
 ** The section to check that the code is good
+:PROPERTIES:
+:CUSTOM_ID: h:7AF49050-665C-4BF6-BC19-97B553F7D0B4
+:CREATED:  [2025-01-03 Fri 22:17]
+:END:
 
 This section runs three checks:
 - Tagref (See: <section explaining tagref>)
