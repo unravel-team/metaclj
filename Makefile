@@ -125,6 +125,7 @@ install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el
 	@echo '' >> $@
 	@echo '# Metaclj tempfiles' >> $@
 	@echo '.antqtool.lastupdated' >> $@
+	@echo '.enrich-classpath-repl' >> $@
 
 install-gitignore: .gitignore
 	@echo ".gitignore added/exists in the project"
