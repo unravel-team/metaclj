@@ -10,6 +10,13 @@ SHELL = /bin/bash -Eeu
 
 .DEFAULT_GOAL := repl
 
+help:    ## A brief explanation of everything you can do
+	@awk '/^[a-zA-Z0-9_-]+:.*##/ { \
+		printf "%-20s # %s\n", \
+		substr($$1, 1, length($$1)-1), \
+		substr($$0, index($$0,"##")+3) \
+	}' $(MAKEFILE_LIST)
+
 # The Clojure CLI aliases that will be selected for main options for `repl`.
 # Feel free to upgrade this, or to override it with an env var named DEPS_MAIN_OPTS.
 # Expected format: "-M:alias1:alias2"

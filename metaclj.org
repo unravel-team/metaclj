@@ -7,9 +7,7 @@
 * Quickstart
 
 1. Copy over the =Makefile= to your Clojure project.
-2. Review the targets and run the ones that you want. Look at the
-   Table to Contents to get a sense of the order in which you should
-   run these targets.
+2. Run =make help= to see what you can do.
 
 [ A short thread on what using Metaclj looks like: <link> (<date>) ]
 
@@ -20,6 +18,7 @@
 - [[#the-common-variables-section-of-the-makefile][The common variables section of the Makefile]]
 - [[#set-bash-as-the-shell-for-executing-commands][Set Bash as the shell for executing commands]]
 - [[#the-default-goal-section-of-the-makefile][The default goal section of the Makefile]]
+- [[#the-help-target-to-explain-what-you-can-do-with-the-makefile][The help target to explain what you can do with the Makefile]]
 - [[#the-main-opts-and-repl-targets-for-the-clojure-cli-tool][The Main Opts and REPL targets for the Clojure CLI tool]]
 - [[#the-enrich-section-of-the-makefile][The Enrich section of the Makefile]]
 - [[#the-clj-kondo-section-of-the-makefile][The clj-kondo section of the Makefile]]
@@ -127,6 +126,35 @@ in our project. (See: <REPL section>)
 
 #+begin_src makefile-bsdmake :tangle "Makefile"
   .DEFAULT_GOAL := repl
+#+end_src
+
+* The help target to explain what you can do with the Makefile
+:PROPERTIES:
+:CUSTOM_ID: h:F4650D06-3125-4FC6-A426-A4B257C86B25
+:CREATED:  [2025-01-30 Thu 14:19]
+:END:
+
+Here, we use ~awk~ to filter out all the targets which have a doc-string. This is the "public API" of the Makefile, so to speak.
+
+=/^[a-zA-Z0-9_-]+:.*##/= is a pattern that matches lines starting with
+a target name (letters, numbers, underscores, or hyphens) followed by
+a colon, followed by ~##~ somewhere in the line. This finds Makefile
+target definitions.
+
+In the print command:
+- =%-20s= formats the target name left-aligned in 20 characters
+- =substr($$1, 1, length($$1)-1)= takes the target name (first field)
+  without the trailing colon
+- =substr($$0, index($$0,"##")+3)= extracts everything after ## (the
+  comment)
+
+#+begin_src makefile-bsdmake :tangle "Makefile"
+  help:    ## A brief explanation of everything you can do
+  	@awk '/^[a-zA-Z0-9_-]+:.*##/ { \
+  		printf "%-20s # %s\n", \
+  		substr($$1, 1, length($$1)-1), \
+  		substr($$0, index($$0,"##")+3) \
+  	}' $(MAKEFILE_LIST)
 #+end_src
 
 * The Main Opts and REPL targets for the Clojure CLI tool
