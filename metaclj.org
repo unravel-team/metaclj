@@ -21,9 +21,11 @@
 - [[#the-help-target-to-explain-what-you-can-do-with-the-makefile][The help target to explain what you can do with the Makefile]]
 - [[#the-main-opts-and-repl-targets-for-the-clojure-cli-tool][The Main Opts and REPL targets for the Clojure CLI tool]]
 - [[#the-enrich-section-of-the-makefile][The Enrich section of the Makefile]]
-- [[#the-clj-kondo-section-of-the-makefile][The clj-kondo section of the Makefile]]
-- [[#the-zprint-section-of-the-makefile][The zprint section of the Makefile]]
-- [[#the-gitignore-section-of-the-makefile][The .gitignore section of the Makefile]]
+- [[#the-install-section-for-one-time-install-of-config-files][The Install section for one-time install of config files]]
+  - [[#the-clj-kondo-section-of-the-makefile][The clj-kondo section of the Makefile]]
+  - [[#the-zprint-section-of-the-makefile][The zprint section of the Makefile]]
+  - [[#the-gitignore-section-of-the-makefile][The .gitignore section of the Makefile]]
+  - [[#the-conventions-section-of-the-makefile][The CONVENTIONS section of the Makefile]]
 - [[#the-cicd-section-of-the-makefile][The CI/CD section of the Makefile]]
   - [[#the-section-to-check-that-the-code-is-good][The section to check that the code is good]]
   - [[#the-section-to-test-that-the-code-is-working-correctly][The section to test that the code is working correctly]]
@@ -221,7 +223,22 @@ Enrich version periodically.
   	fi
 #+end_src
 
-* The clj-kondo section of the Makefile
+* The Install section for one-time install of config files
+:PROPERTIES:
+:CUSTOM_ID: h:1438EEBB-FA57-476C-A06E-D4A61EDF2C17
+:CREATED:  [2025-04-20 Sun 19:40]
+:END:
+
+In this section, we install all the configuration needed to run the
+various commands of this Makefile. This is a one-time activity (you
+can run the target as many times as you want, it will only install
+config once)
+
+#+begin_src makefile-bsdmake :tangle "Makefile"
+  install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md    ## Install all the configuration we need for other targets
+#+end_src
+
+** The clj-kondo section of the Makefile
 :PROPERTIES:
 :CUSTOM_ID: h:557E00DD-D217-468E-9F20-FE4FE4C049BE
 :CREATED:  [2025-01-03 Fri 21:13]
@@ -242,7 +259,7 @@ custom code introduced by your dependencies.
   	clj-kondo --lint "$$(clojure -A:dev:test:cider:build -Spath)" --copy-configs --skip-lint
 #+end_src
 
-* The zprint section of the Makefile
+** The zprint section of the Makefile
 :PROPERTIES:
 :CUSTOM_ID: h:24CF27D2-DAD9-4A3C-B80E-63DF15591FFD
 :CREATED:  [2025-01-03 Fri 21:18]
@@ -297,7 +314,7 @@ the project.
   	@echo "zprint configuration files created successfully."
 #+end_src
 
-* The .gitignore section of the Makefile
+** The .gitignore section of the Makefile
 :PROPERTIES:
 :CUSTOM_ID: h:DDEC523F-F4A5-4506-A1DA-3290336D6527
 :CREATED:  [2025-01-03 Fri 21:22]

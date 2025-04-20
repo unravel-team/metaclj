@@ -44,6 +44,8 @@ repl-enrich: .enrich-classpath-repl    ## Launch a repl enriched with Java sourc
 		clojure $(DEPS_MAIN_OPTS); \
 	fi
 
+install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md    ## Install all the configuration we need for other targets
+
 .clj-kondo:
 	mkdir .clj-kondo
 
