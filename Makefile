@@ -137,6 +137,9 @@ install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el    ## Inst
 install-gitignore: .gitignore    ## Install a meaningful .gitignore file
 	@echo ".gitignore added/exists in the project"
 
+CONVENTIONS.md:   ## Check if the CONVENTIONS file exists, if not, inform the user
+	@echo "Download the CONVENTIONS.md file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
+
 check-tagref:
 	tagref
 

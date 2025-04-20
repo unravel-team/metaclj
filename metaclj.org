@@ -362,6 +362,27 @@ what =make install-gitignore= does.
   	@echo ".gitignore added/exists in the project"
 #+end_src
 
+** The CONVENTIONS section of the Makefile
+:PROPERTIES:
+:CUSTOM_ID: h:72304956-2E82-4888-9709-8E69AA6D2A56
+:CREATED:  [2025-04-20 Sun 18:52]
+:END:
+Coding Conventions are, in general, a great idea. They set
+expectations correctly for the programmer new to your project. With
+the advent of the LLM pair programmer, they also become excellent
+guidelines for your AI assistant, as we'll see in the section on
+Aider.
+
+I've added my CONVENTIONS.md file to this repo, and the ~make~ task
+simply checks for the presence of such a file. If it does not find it,
+it will print instructions for your to copy it from the ~metaclj~
+project.
+
+#+begin_src makefile-bsdmake :tangle "Makefile"
+  CONVENTIONS.md:   ## Check if the CONVENTIONS file exists, if not, inform the user
+  	@echo "Download the CONVENTIONS.md file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
+#+end_src
+
 * The CI/CD section of the Makefile
 :PROPERTIES:
 :CUSTOM_ID: h:B423079B-E66C-4DEE-AC9E-8ED12225EB43
