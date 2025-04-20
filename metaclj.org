@@ -61,7 +61,7 @@ for the existence of these files.
 
 Our PHONY targets are as follows:
 
-1. *Installing tools* (generally you only need to do this once)
+1. *Installing tools* (You only need to do this once)
    - =install-antq= (See: [[#h:9105B76A-A27A-4A63-A2D2-D311CDC9C23E][The section to upgrade Clojure libraries in the current project]])
    - =install-kondo-configs= (Installing linting configuration. See: [[#h:557E00DD-D217-468E-9F20-FE4FE4C049BE][The clj-kondo section of the Makefile]])
    - =install-zprint-config= (Installing formatting configuration. See: [[#h:24CF27D2-DAD9-4A3C-B80E-63DF15591FFD][The zprint section of the Makefile]])
@@ -121,11 +121,12 @@ You can ignore them for now and we'll review them when we use them.
 :END:
 
 The =.DEFAULT_GOAL= is what runs when we only run the ~make~ command
-with no directive. In our case, we want this to start a Clojure REPL
-in our project. (See: <REPL section>)
+with no directive. In our case, we want this to print the help options
+and exit, so that the user has a clear idea of what is possible with
+this Makefile.
 
 #+begin_src makefile-bsdmake :tangle "Makefile"
-  .DEFAULT_GOAL := repl
+  .DEFAULT_GOAL := help
 #+end_src
 
 * The help target to explain what you can do with the Makefile
@@ -134,7 +135,8 @@ in our project. (See: <REPL section>)
 :CREATED:  [2025-01-30 Thu 14:19]
 :END:
 
-Here, we use ~awk~ to filter out all the targets which have a doc-string. This is the "public API" of the Makefile, so to speak.
+Here, we use ~awk~ to filter out all the targets which have a
+doc-string. This is the "public API" of the Makefile, so to speak.
 
 =/^[a-zA-Z0-9_-]+:.*##/= is a pattern that matches lines starting with
 a target name (letters, numbers, underscores, or hyphens) followed by

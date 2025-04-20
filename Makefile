@@ -8,7 +8,7 @@ CLOJURE_SOURCES := $(shell find . -name '**.clj')
 # and use the usual safety flags:
 SHELL = /bin/bash -Eeu
 
-.DEFAULT_GOAL := repl
+.DEFAULT_GOAL := help
 
 help:    ## A brief explanation of everything you can do
 	@awk '/^[a-zA-Z0-9_-]+:.*##/ { \
