@@ -26,6 +26,7 @@
   - [[#the-zprint-section-of-the-makefile][The zprint section of the Makefile]]
   - [[#the-gitignore-section-of-the-makefile][The .gitignore section of the Makefile]]
   - [[#the-conventions-section-of-the-makefile][The CONVENTIONS section of the Makefile]]
+  - [[#the-aider-section-of-the-makefile][The Aider section of the Makefile]]
 - [[#the-cicd-section-of-the-makefile][The CI/CD section of the Makefile]]
   - [[#the-section-to-check-that-the-code-is-good][The section to check that the code is good]]
   - [[#the-section-to-test-that-the-code-is-working-correctly][The section to test that the code is working correctly]]
@@ -235,7 +236,7 @@ can run the target as many times as you want, it will only install
 config once)
 
 #+begin_src makefile-bsdmake :tangle "Makefile"
-  install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md    ## Install all the configuration we need for other targets
+  install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md .aider.conf.yml    ## Install all the configuration we need for other targets
 #+end_src
 
 ** The clj-kondo section of the Makefile
@@ -398,6 +399,24 @@ project.
 #+begin_src makefile-bsdmake :tangle "Makefile"
   CONVENTIONS.md:   ## Check if the CONVENTIONS file exists, if not, inform the user
   	@echo "Download the CONVENTIONS.md file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
+#+end_src
+
+** The Aider section of the Makefile
+:PROPERTIES:
+:CUSTOM_ID: h:F9F04893-395F-4E15-A5FA-BE955ADB0A00
+:CREATED:  [2025-04-20 Sun 20:12]
+:END:
+
+Aider is absolutely amazing, and it is my goto tool for programming
+with an LLM. My configuration with Aider is in the ~.aider.conf.yml~
+file, and the Makefile target reminds you to install it by copying it
+from ~metaclj~.
+
+I've written more about how I use Aider here: <link>
+
+#+begin_src makefile-bsdmake :tangle "Makefile"
+  .aider.conf.yml:   ## Check if the Aider configuration file exists, if not, inform the user
+  	@echo "Download the .aider.conf.yml file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
 #+end_src
 
 * The CI/CD section of the Makefile

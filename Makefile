@@ -44,7 +44,7 @@ repl-enrich: .enrich-classpath-repl    ## Launch a repl enriched with Java sourc
 		clojure $(DEPS_MAIN_OPTS); \
 	fi
 
-install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md    ## Install all the configuration we need for other targets
+install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md .aider.conf.yml    ## Install all the configuration we need for other targets
 
 .clj-kondo:
 	mkdir .clj-kondo
@@ -141,6 +141,9 @@ install-gitignore: .gitignore    ## Install a meaningful .gitignore file
 
 CONVENTIONS.md:   ## Check if the CONVENTIONS file exists, if not, inform the user
 	@echo "Download the CONVENTIONS.md file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
+
+.aider.conf.yml:   ## Check if the Aider configuration file exists, if not, inform the user
+	@echo "Download the .aider.conf.yml file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
 
 check-tagref:
 	tagref
