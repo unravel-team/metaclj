@@ -157,6 +157,9 @@ check-zprint:
 check: check-tagref check-cljkondo check-zprint    ## Check that the code is well linted and well formatted
 	@echo "All checks passed!"
 
+format:
+	zprint -lfw $(CLOJURE_SOURCES)
+
 test-all:
 	clojure -M:poly test :all
 

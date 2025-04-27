@@ -440,7 +440,9 @@ This section runs three checks:
 - Clj-Kondo (See: [[#h:557E00DD-D217-468E-9F20-FE4FE4C049BE][The clj-kondo section of the Makefile]])
 - Zprint (See: [[#h:24CF27D2-DAD9-4A3C-B80E-63DF15591FFD][The zprint section of the Makefile]])
 
-Run the command -=make check=
+Run the command =make check= to see if your code is compliant. Run the
+command =make format= to format all your Clojure source files using
+~zprint~.
 
 #+begin_src makefile-bsdmake :tangle "Makefile"
   check-tagref:
@@ -454,6 +456,9 @@ Run the command -=make check=
 
   check: check-tagref check-cljkondo check-zprint    ## Check that the code is well linted and well formatted
   	@echo "All checks passed!"
+
+  format:
+  	zprint -lfw $(CLOJURE_SOURCES)
 #+end_src
 
 ** The section to test that the code is working correctly
