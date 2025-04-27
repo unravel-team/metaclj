@@ -183,6 +183,10 @@ upgrade-libs: .antqtool.lastupdated install-antq    ## Install all the deps to t
 
 build: check    ## Build the deployment artifact
 	@echo "Run deps-new build commands here!"
+	clojure -T:build install
+
+localinstall: build   ## Install the artifact locally
+	clojure -T:build install
 
 deploy: build    ## Deploy the current code to production
 	@echo "Run fly.io deployment commands here!"

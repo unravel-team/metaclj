@@ -514,10 +514,15 @@ Run the command =make upgrade-libs=
 :CREATED:  [2025-01-03 Fri 21:40]
 :END:
 
-<TBD>
+The ~build~ target builds the jar artifact, and the ~localinstall~ target installs it in the local ~m2~ repository for immediate use.
+
 #+begin_src makefile-bsdmake :tangle "Makefile"
   build: check    ## Build the deployment artifact
   	@echo "Run deps-new build commands here!"
+  	clojure -T:build install
+
+  localinstall: build   ## Install the artifact locally
+  	clojure -T:build install
 #+end_src
 
 * The section to deploy the Clojure project to production
