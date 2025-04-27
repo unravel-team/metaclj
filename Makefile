@@ -187,6 +187,9 @@ build: check    ## Build the deployment artifact
 deploy: build    ## Deploy the current code to production
 	@echo "Run fly.io deployment commands here!"
 
+deploy-lib: build  ## Deploy to Clojars. needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` env vars
+	clojure -T:build deploy
+
 clean-projects:
 	rm -rf projects/*/target/public
 

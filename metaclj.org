@@ -526,10 +526,14 @@ Run the command =make upgrade-libs=
 :CREATED:  [2025-01-03 Fri 21:38]
 :END:
 
-<TBD>
+The ~deploy~ target deploys to production, and the ~deploy-lib~ target deploys to your chosen repository.
+
 #+begin_src makefile-bsdmake :tangle "Makefile"
   deploy: build    ## Deploy the current code to production
   	@echo "Run fly.io deployment commands here!"
+
+  deploy-lib: build  ## Deploy to Clojars. needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` env vars
+  	clojure -T:build deploy
 #+end_src
 
 * The section to clean existing artifacts from the Clojure project
