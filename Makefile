@@ -163,8 +163,11 @@ test-all:
 test-coverage:
 	clojure -X:dev:test:clofidence
 
-test:    ## Run Poly tests for the code
+test-poly:    ## Run Poly tests for the code
 	clojure -M:poly test
+
+test:    ## Run all the tests for the code
+	clojure -T:build test
 
 install-antq:
 	@if [ -f .antqtool.lastupdated ] && find .antqtool.lastupdated -mtime +15 -print | grep -q .; then \

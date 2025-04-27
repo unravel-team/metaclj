@@ -462,11 +462,12 @@ Run the command -=make check=
 :CREATED:  [2025-01-03 Fri 21:31]
 :END:
 
-I use ~polylith~ as my goto Clojure framework. The testing commands in
-my Makefile run the appropriate polylith commands. I'm going to add a
-non-polylith based testing target as well, in the near future.
+I use ~polylith~ and ~deps-new~ as my goto Clojure frameworks. The
+testing targets in my Makefile reflect the frameworks I use. Please
+add more frameworks, I welcome PRs to improve this section.
 
-The target ~test-coverage~ uses Clofidence for coverage tracking (See: <clofidence installation instructions>)
+The target ~test-coverage~ uses Clofidence for coverage tracking (See:
+<clofidence installation instructions>)
 
 Run the command =make test=
 
@@ -477,8 +478,11 @@ Run the command =make test=
   test-coverage:
   	clojure -X:dev:test:clofidence
 
-  test:    ## Run Poly tests for the code
+  test-poly:    ## Run Poly tests for the code
   	clojure -M:poly test
+
+  test:    ## Run all the tests for the code
+  	clojure -T:build test
 #+end_src
 
 * The section to upgrade Clojure libraries in the current project
