@@ -544,6 +544,7 @@ Run the command =make upgrade-libs=
   	rm -rf projects/*/target/public
 
   clean: clean-projects    ## Delete any existing artifacts
+  	rm -rf target/
 #+end_src
 
 * COMMENT Local Variables

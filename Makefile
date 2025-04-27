@@ -191,3 +191,4 @@ clean-projects:
 	rm -rf projects/*/target/public
 
 clean: clean-projects    ## Delete any existing artifacts
+	rm -rf target/
