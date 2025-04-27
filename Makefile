@@ -2,7 +2,7 @@
 
 HOME := $(shell echo $$HOME)
 HERE := $(shell echo $$PWD)
-CLOJURE_SOURCES := $(shell find . -name '**.clj' -not -path './.clj-kondo/*')
+CLOJURE_SOURCES := $(shell find . -name '**.clj' -not -path './.clj-kondo/*' -not -path './target/*' -not -path './projects/*/target/*')
 
 # Set bash instead of sh for the @if [[ conditions,
 # and use the usual safety flags:
@@ -149,7 +149,7 @@ check-tagref:
 	tagref
 
 check-cljkondo:
-	clj-kondo --lint .
+	clj-kondo --lint $(CLOJURE_SOURCES)
 
 check-zprint:
 	zprint -c $(CLOJURE_SOURCES)

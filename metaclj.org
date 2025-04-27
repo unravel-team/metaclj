@@ -102,7 +102,7 @@ You can ignore them for now and we'll review them when we use them.
 #+begin_src makefile-bsdmake :tangle "Makefile"
   HOME := $(shell echo $$HOME)
   HERE := $(shell echo $$PWD)
-  CLOJURE_SOURCES := $(shell find . -name '**.clj' -not -path './.clj-kondo/*')
+  CLOJURE_SOURCES := $(shell find . -name '**.clj' -not -path './.clj-kondo/*' -not -path './target/*' -not -path './projects/*/target/*')
 #+end_src
 
 * Set Bash as the shell for executing commands
@@ -449,7 +449,7 @@ command =make format= to format all your Clojure source files using
   	tagref
 
   check-cljkondo:
-  	clj-kondo --lint .
+  	clj-kondo --lint $(CLOJURE_SOURCES)
 
   check-zprint:
   	zprint -c $(CLOJURE_SOURCES)
