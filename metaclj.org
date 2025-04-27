@@ -102,7 +102,7 @@ You can ignore them for now and we'll review them when we use them.
 #+begin_src makefile-bsdmake :tangle "Makefile"
   HOME := $(shell echo $$HOME)
   HERE := $(shell echo $$PWD)
-  CLOJURE_SOURCES := $(shell find . -name '**.clj')
+  CLOJURE_SOURCES := $(shell find . -name '**.clj' -not -path './.clj-kondo/*')
 #+end_src
 
 * Set Bash as the shell for executing commands
