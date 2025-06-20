@@ -51,3 +51,6 @@ projects/**/pom.xml
 
 # Metaclj tempfiles
 .antqtool.lastupdated
+
+# Aider files
+.aider.*
