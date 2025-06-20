@@ -3,6 +3,9 @@
 - If you speculate or predict something, always inform me.
 - When asked for information you do not have, do not make up an answer; always be honest about not knowing.
 - Document the project in such a way that an intern or LLM can easily pick it up and make progress on it.
+- Think step-by-step and show reasoning for complex problems. Use specific examples.
+- When giving feedback, explain your thought process and highlight issues and opportunities
+- Breakdown large tasks and ask clarifying questions when needed
 
 ## Rules for writing documentation
 
@@ -54,3 +57,10 @@
 - Include error codes and descriptive messages in responses
 - Maintain existing debug logging code
 - Set `:is-error` flag in tool responses when errors occur
+
+# Guidelines for web development
+
+- Stick to simple HTML, CSS and JS websites as much as possible
+- Use HTML Web Components where possible.
+- Use the `spectrum` Web Components library for ready-made components
+- Add step-by-step instructions on how to setup the website for local development in the README file
