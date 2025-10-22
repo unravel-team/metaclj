@@ -1,5 +1,3 @@
-.PHONY: install-antq install-kondo-configs install-zprint-config install-gitignore repl-enrich repl check-cljkondo check-tagref check-zprint-config check-zprint check test test-all test-coverage upgrade-libs build serve deploy clean-projects clean
-
 HOME := $(shell echo $$HOME)
 HERE := $(shell echo $$PWD)
 CLOJURE_SOURCES := $(shell find . -name '**.clj' -not -path './.clj-kondo/*' -not -path './target/*' -not -path './projects/*/target/*')
@@ -17,41 +15,16 @@ help:    ## A brief explanation of everything you can do
 		substr($$0, index($$0,"##")+3) \
 	}' $(MAKEFILE_LIST)
 
-# The Clojure CLI aliases that will be selected for main options for `repl`.
-# Feel free to upgrade this, or to override it with an env var named DEPS_MAIN_OPTS.
-# Expected format: "-M:alias1:alias2"
-DEPS_MAIN_OPTS ?= "-M:dev:test:logs-dev:cider-storm"
-
-repl:    ## Launch a REPL using the Clojure CLI
-	clojure $(DEPS_MAIN_OPTS);
-
-# The enrich-classpath version to be injected.
-# Feel free to upgrade this.
-ENRICH_CLASSPATH_VERSION="1.19.3"
-
-# Create and cache a `clojure` command. deps.edn is mandatory; the others are optional but are taken into account for cache recomputation.
-# It's important not to silence with step with @ syntax, so that Enrich progress can be seen as it resolves dependencies.
-.enrich-classpath-repl: Makefile deps.edn $(wildcard $(HOME)/.clojure/deps.edn) $(wildcard $(XDG_CONFIG_HOME)/.clojure/deps.edn)
-	cd $$(mktemp -d -t enrich-classpath.XXXXXX); clojure -Sforce -Srepro -J-XX:-OmitStackTraceInFastThrow -J-Dclojure.main.report=stderr -Sdeps '{:deps {mx.cider/tools.deps.enrich-classpath {:mvn/version $(ENRICH_CLASSPATH_VERSION)}}}' -M -m cider.enrich-classpath.clojure "clojure" "$(HERE)" "true" $(DEPS_MAIN_OPTS) | grep "^clojure" > $(HERE)/$@
-
-# Launches a repl, falling back to vanilla Clojure repl if something went wrong during classpath calculation.
-repl-enrich: .enrich-classpath-repl    ## Launch a repl enriched with Java source code paths
-	@if grep --silent "^clojure" .enrich-classpath-repl; then \
-		echo "Executing: $$(cat .enrich-classpath-repl)" && \
-		eval $$(cat .enrich-classpath-repl); \
-	else \
-		echo "Falling back to Clojure repl... (you can avoid further falling back by removing .enrich-classpath-repl)"; \
-		clojure $(DEPS_MAIN_OPTS); \
-	fi
-
 install: install-kondo-configs install-zprint-config install-gitignore CONVENTIONS.md .aider.conf.yml    ## Install all the configuration we need for other targets
 
 .clj-kondo:
 	mkdir .clj-kondo
 
-install-kondo-configs: .clj-kondo    ## Install clj-kondo configs for all the currently installed deps
+.PHONY: install-kondo-configs
+install-kondo-configs: .clj-kondo
 	clj-kondo --lint "$$(clojure -A:dev:test:cider:build -Spath)" --copy-configs --skip-lint
 
+.PHONY: check-zprint-config
 check-zprint-config:
 	@echo "Checking (HOME)/.zprint.edn..."
 	@if [ ! -f "$(HOME)/.zprint.edn" ]; then \
@@ -82,7 +55,8 @@ check-zprint-config:
 	@echo ' (clojurescript-mode . ((apheleia-formatter . (zprint))))' >> $@
 	@echo ' (clojurescript-ts-mode . ((apheleia-formatter . (zprint)))))' >> $@
 
-install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el    ## Install configuration for using the zprint formatter
+.PHONY: install-zprint-config
+install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el
 	@echo "zprint configuration files created successfully."
 
 .gitignore:
@@ -136,42 +110,82 @@ install-zprint-config: check-zprint-config .zprint.edn .dir-locals.el    ## Inst
 	@echo '.antqtool.lastupdated' >> $@
 	@echo '.enrich-classpath-repl' >> $@
 
-install-gitignore: .gitignore    ## Install a meaningful .gitignore file
+.PHONY: install-gitignore
+install-gitignore: .gitignore
 	@echo ".gitignore added/exists in the project"
 
-CONVENTIONS.md:   ## Check if the CONVENTIONS file exists, if not, inform the user
+CONVENTIONS.md:
 	@echo "Download the CONVENTIONS.md file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
 
-.aider.conf.yml:   ## Check if the Aider configuration file exists, if not, inform the user
+.aider.conf.yml:
 	@echo "Download the .aider.conf.yml file from the [[https://github.com/unravel-team/metaclj][metaclj]] project"
 
+# The Clojure CLI aliases that will be selected for main options for `repl`.
+# Feel free to upgrade this, or to override it with an env var named DEPS_MAIN_OPTS.
+# Expected format: "-M:alias1:alias2"
+DEPS_MAIN_OPTS ?= "-M:dev:test:logs-dev:cider-storm"
+
+.PHONY: repl
+repl:    ## Launch a REPL using the Clojure CLI
+	clojure $(DEPS_MAIN_OPTS);
+
+# The enrich-classpath version to be injected.
+# Feel free to upgrade this.
+ENRICH_CLASSPATH_VERSION="1.19.3"
+
+# Create and cache a `clojure` command. deps.edn is mandatory; the others are optional but are taken into account for cache recomputation.
+# It's important not to silence with step with @ syntax, so that Enrich progress can be seen as it resolves dependencies.
+.enrich-classpath-repl: Makefile deps.edn $(wildcard $(HOME)/.clojure/deps.edn) $(wildcard $(XDG_CONFIG_HOME)/.clojure/deps.edn)
+	cd $$(mktemp -d -t enrich-classpath.XXXXXX); clojure -Sforce -Srepro -J-XX:-OmitStackTraceInFastThrow -J-Dclojure.main.report=stderr -Sdeps '{:deps {mx.cider/tools.deps.enrich-classpath {:mvn/version $(ENRICH_CLASSPATH_VERSION)}}}' -M -m cider.enrich-classpath.clojure "clojure" "$(HERE)" "true" $(DEPS_MAIN_OPTS) | grep "^clojure" > $(HERE)/$@
+
+# Launches a repl, falling back to vanilla Clojure repl if something went wrong during classpath calculation.
+.PHONY: repl-enrich
+repl-enrich: .enrich-classpath-repl    ## Launch a repl enriched with Java source code paths
+	@if grep --silent "^clojure" .enrich-classpath-repl; then \
+		echo "Executing: $$(cat .enrich-classpath-repl)" && \
+		eval $$(cat .enrich-classpath-repl); \
+	else \
+		echo "Falling back to Clojure repl... (you can avoid further falling back by removing .enrich-classpath-repl)"; \
+		clojure $(DEPS_MAIN_OPTS); \
+	fi
+
+.PHONY: check-tagref
 check-tagref:
 	tagref
 
+.PHONY: check-cljkondo
 check-cljkondo:
 	clj-kondo --lint $(CLOJURE_SOURCES)
 
+.PHONY: check-zprint
 check-zprint:
 	zprint -c $(CLOJURE_SOURCES)
 
-check: check-tagref check-cljkondo check-zprint    ## Check that the code is well linted and well formatted
+.PHONY: check
+check: check-tagref check-cljkondo check-zprint    ## Check that the code is well linted
 	@echo "All checks passed!"
 
-format:
+.PHONY: format
+format:       ## Format the code to conform with our standards
 	zprint -lfw $(CLOJURE_SOURCES)
 
+.PHONY: test-all
 test-all:
 	clojure -M:poly test :all
 
-test-coverage:
+.PHONY: test-converage
+test-coverage:  ## Run coverage reports for the code using Clofidence
 	clojure -X:dev:test:clofidence
 
+.PHONY: test-poly
 test-poly:    ## Run Poly tests for the code
 	clojure -M:poly test
 
+.PHONY: test
 test:    ## Run all the tests for the code
 	clojure -T:build test
 
+.PHONY: install-antq
 install-antq:
 	@if [ -f .antqtool.lastupdated ] && find .antqtool.lastupdated -mtime +15 -print | grep -q .; then \
 		echo "Updating antq tool to the latest version..."; \
@@ -184,24 +198,31 @@ install-antq:
 .antqtool.lastupdated:
 	touch .antqtool.lastupdated
 
+.PHONY: upgrade-libs
 upgrade-libs: .antqtool.lastupdated install-antq    ## Install all the deps to their latest versions
 	clojure -Tantq outdated :check-clojure-tools true :upgrade true
 
+.PHONY: build
 build: check    ## Build the deployment artifact
 	@echo "Run deps-new build commands here!"
 	clojure -T:build install
 
+.PHONY: localinstall
 localinstall: build   ## Install the artifact locally
 	clojure -T:build install
 
+.PHONY: deploy
 deploy: build    ## Deploy the current code to production
 	@echo "Run fly.io deployment commands here!"
 
+.PHONY: deploy-lib
 deploy-lib: build  ## Deploy to Clojars. needs `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` env vars
 	clojure -T:build deploy
 
+.PHONY: clean-projects
 clean-projects:
 	rm -rf projects/*/target/public
 
+.PHONY: clean
 clean: clean-projects    ## Delete any existing artifacts
 	rm -rf target/
